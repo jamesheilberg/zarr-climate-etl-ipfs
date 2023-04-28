@@ -209,7 +209,7 @@ class IPLD(StoreInterface):
             An IPLD `MutableMapping`, usable, for example, to open a Zarr with `xr.open_zarr`
         """
         if self.dm.requested_ipfs_chunker:
-            mapper = ipldstore.get_ipfs_mapper(chunker=self.dm.requested_ipfs_chunker)
+            mapper = ipldstore.get_ipfs_mapper(host=self.host, chunker=self.dm.requested_ipfs_chunker)
         else:
             mapper = ipldstore.get_ipfs_mapper()
         self.dm.info(f"IPFS chunker is {mapper._store._chunker}")
