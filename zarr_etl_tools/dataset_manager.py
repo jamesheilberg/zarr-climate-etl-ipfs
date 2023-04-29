@@ -97,8 +97,10 @@ class DatasetManager(Logging, Publish, ABC, IPFS):
         self.rebuild_requested = rebuild_requested
 
         # Set IPFS host to an environment variable
-        self.host = os.getenv('IPFS_HOST')
-        print('self.host')
+        host = os.getenv('IPFS_HOST')
+        if host:
+            self.host = host
+        print(self.host)
 
         # Create a store object based on the passed store string. If `None`, treat as "local". If any string other than "local", "ipld", or "s3" is
         # passed, raise a `ValueError`.

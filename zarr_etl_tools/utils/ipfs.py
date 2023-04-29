@@ -33,7 +33,7 @@ class IPFS:
         default_base: str = "base32",
         default_timeout: int = 600,
     ):
-        self._host = host
+        self.host = host
         self._default_base = default_base
         self._default_timeout = default_timeout
         self._default_hash = default_hash
@@ -57,7 +57,7 @@ class IPFS:
             The referenced DAG CBOR object decoded as a JSON
         """
         res = self.ipfs_session.post(
-            self._host + "/api/v0/block/get",
+            self.host + "/api/v0/block/get",
             timeout=self._default_timeout,
             params={"arg": str(cid)},
         )
@@ -82,7 +82,7 @@ class IPFS:
             The IPFS hash (base32 encoded) corresponding to the newly created DAG object
         """
         res = self.ipfs_session.post(
-            self._host + "/api/v0/dag/put",
+            self.host + "/api/v0/dag/put",
             params={
                 "store-codec": "dag-cbor",
                 "input-codec": "dag-json",
@@ -111,7 +111,7 @@ class IPFS:
             The IPFS hash corresponding to a given IPNS name hash
         """
         res = self.ipfs_session.post(
-            self._host + "/api/v0/name/resolve",
+            self.host + "/api/v0/name/resolve",
             timeout=self._default_timeout,
             params={"arg": key},
         )
@@ -139,7 +139,7 @@ class IPFS:
         """
         # Pin the IPFS CID and publish your key, linking they key to the desired CID
         res = self.ipfs_session.post(
-            self._host + "/api/v0/name/publish",
+            self.host + "/api/v0/name/publish",
             timeout=self._default_timeout,
             params={
                 "arg": cid,
@@ -166,7 +166,7 @@ class IPFS:
         """
         ipns_key_hash_dict = {}
         for name_hash_pair in self.ipfs_session.post(
-            self._host + "/api/v0/key/list", timeout=self._default_timeout
+            self.host + "/api/v0/key/list", timeout=self._default_timeout
         ).json()["Keys"]:
             key, val = tuple(name_hash_pair.values())
             ipns_key_hash_dict[key] = val
@@ -191,7 +191,7 @@ class IPFS:
         # Only generate the key in IPFS's registry if it doesn't already exist
         if key not in self.ipns_key_list():
             res = self.ipfs_session.post(
-                self._host + "/api/v0/key/gen",
+                self.host + "/api/v0/key/gen",
                 timeout=self._default_timeout,
                 params={"arg": key, "type": "rsa"},
             )
