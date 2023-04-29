@@ -210,8 +210,8 @@ class IPLD(StoreInterface):
         """
         if self.dm.requested_ipfs_chunker:
             print('before generating mapper:')
-            print(self.host)
-            mapper = ipldstore.get_ipfs_mapper(host=self.host, chunker=self.dm.requested_ipfs_chunker)
+            print(self.dm.host)
+            mapper = ipldstore.get_ipfs_mapper(host=self.dm.host, chunker=self.dm.requested_ipfs_chunker)
         else:
             mapper = ipldstore.get_ipfs_mapper(host=self.host)
         self.dm.info(f"IPFS chunker is {mapper._store._chunker}")
