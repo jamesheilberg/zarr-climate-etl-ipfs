@@ -213,7 +213,7 @@ class IPLD(StoreInterface):
             print(self.host)
             mapper = ipldstore.get_ipfs_mapper(host=self.host, chunker=self.dm.requested_ipfs_chunker)
         else:
-            mapper = ipldstore.get_ipfs_mapper()
+            mapper = ipldstore.get_ipfs_mapper(host=self.host)
         self.dm.info(f"IPFS chunker is {mapper._store._chunker}")
         if set_root and self.dm.latest_hash():
             mapper.set_root(self.dm.latest_hash())
