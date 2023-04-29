@@ -187,7 +187,7 @@ class IPLD(StoreInterface):
     IPFS mapper will be returned that can be used to write new data to IPFS and generate a new recursive hash.
     """
 
-    def mapper(self, set_root: bool = True, host=None, **kwargs: dict) -> ipldstore.IPLDStore:
+    def mapper(self, set_root: bool = True, **kwargs: dict) -> ipldstore.IPLDStore:
         """
         Get an IPLD mapper by delegating to `ipldstore.get_ipfs_mapper`, passing along an IPFS chunker value if the associated dataset's
         `requested_ipfs_chunker` property has been set.
@@ -209,7 +209,9 @@ class IPLD(StoreInterface):
             An IPLD `MutableMapping`, usable, for example, to open a Zarr with `xr.open_zarr`
         """
         if self.dm.requested_ipfs_chunker:
-            mapper = ipldstore.get_ipfs_mapper(host=(host or self.host), chunker=self.dm.requested_ipfs_chunker)
+            print('before generating mapper:')
+            print(self.host)
+            mapper = ipldstore.get_ipfs_mapper(host=self.host, chunker=self.dm.requested_ipfs_chunker)
         else:
             mapper = ipldstore.get_ipfs_mapper()
         self.dm.info(f"IPFS chunker is {mapper._store._chunker}")
